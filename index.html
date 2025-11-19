@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta imgsrc="logo.svg" alt="Frank Dev Community Logo">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frank Dev Community</title>
+  <style>
+    
+:root {
+  --bg: #000000;            /* Discordのダーク背景に近い */
+  --panel: #000000;         /* メッセージ領域の背景 */
+  --text: #dbdee1;          /* 本文テキスト色 */
+  --muted: #a3a6aa;         /* タイムスタンプ等の薄色 */
+  --accent: #5865f2;        /* Discordブランドのアクセント */
+  --author: #ffffff;        /* 名前色（ロールで色替えするならここを変数化） */
+  --avatar-size: 48px;
+  --gap: 12px;
+  --radius: 0px;
+  --line: 1.55;
+  --font: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+}
+* { box-sizing: border-box; }
+   body{
+    margin:0;
+    background:rgb(0, 0, 0);
+    }
+.con{
+    
+    display: flex;
+    justify-content: center;
+    
+    
+}
+   form{
+    
+    width: clamp(300px, 50%, 800px);
+    display:flex;
+   }
+   textarea{
+    padding:5px;
+    width:100%;
+    resize:none;
+    border-radius:0px;
+    outline: none; 
+    background:rgb(255, 255, 255);
+    color:rgb(0, 0, 0);
+    border:0px solid black;
+   }
+   .btn2{
+    width:70px;
+    border-radius:0px;
+    outline: none; 
+    color:white;
+    background:rgb(89, 0, 255);
+    border:0px solid black;
+   }
+   .post{
+    color:white;
+    display:flex;
+   }
+   .chat {
+border-right:1px solid rgb(88, 88, 88);
+border-left:1px solid rgb(88, 88, 88);
+  width: clamp(300px, 50%, 800px);
+  margin: 0px auto;
+  padding: 0px;
+  background: var(--panel);
+  border-radius: var(--radius);
+}
+
+/* メッセージ行 */
+.message {
+    color:white;
+  display: grid;
+  grid-template-columns: var(--avatar-size) 1fr;
+  gap: var(--gap);
+  align-items: start;
+  padding: 12px 8px;
+}
+
+/* 行間にうっすら区切り */
+.message + .message {
+  border-top: 1px solid rgb(88, 88, 88);
+}
+
+/* アバター */
+.avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  display: block;
+  background: #1f2023;          /* 画像がない場合のプレースホルダ */
+  object-fit: cover;
+}
+
+/* 本文側 */
+
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  line-height: var(--line);
+}
+.author {
+  font-weight: 600;
+  color: var(--author);
+}
+.timestamp {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* メッセージ本文 */
+.content {
+  margin-top: 2px;
+  line-height: var(--line);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* 引用やコードっぽい表現（任意） */
+.content blockquote {
+  margin: 6px 0 6px 0;
+  padding-left: 10px;
+  border-left: 4px solid rgba(255,255,255,0.12);
+  color: var(--muted);
+}
+.content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Roboto Mono", monospace;
+  background: rgba(255,255,255,0.08);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+/* ロール色の例（任意で適用） */
+.author.role-admin { color: var(--accent); }
+
+/* モバイル最適化：アバターを少し小さく */
+@media (max-width: 480px) {
+  :root { --avatar-size: 40px; }
+  .chat { padding: 12px; }
+  .message { padding: 10px 6px; }
+}
+
+/* ライトテーマ（必要なら切替クラスで） */
+
+  </style>
+</head>
+<body>
+    <!-- コンテナ（複数メッセージを並べる場合） -->
+<div class="chat">
+  <!-- 1件のメッセージ -->
+  <article class="message">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1976627268400353280/gpuMxtet_400x400.jpg" alt="User avatar">
+    <div class="body">
+      <header class="meta">
+        <span class="author">Copilot</span>
+        <span class="timestamp">今日 09:45</span>
+      </header>
+      <div class="content">
+        CSSでDiscordkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk風のメッセージUIを再現してみました。行頭のアイコン、名前、タイムスタンプ、本文の並びを忠実に。
+      </div>
+    </div>
+  </article>
+
+  <article class="message">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1976627268400353280/gpuMxtet_400x400.jpg" alt="User avatar">
+    <div class="body">
+      <header class="meta">
+        <span class="author">Shimane Dev</span>
+        <span class="timestamp">今日 09:46</span>
+      </header>
+      <div class="content">
+        2行目の本文も自然に折り返されます。コードブロックや引用の拡張も追加できます。
+      </div>
+    </div>
+  </article>
+</div>
+
+    <div class="con">
+       
+    <form method="POST">
+      
+      <textarea
+        name="text"
+        placeholder="自由に書き込んでください"
+        class=""
+      ></textarea
+      ><br />
+      <button type="submit" class="btn2">投稿</button>
+    </form>
+</div>
+</body>
+</html>
