@@ -24,6 +24,7 @@ def handle_join(data):
 def handle_post(data):
     thread = data.get('thread', 'general')
     author = (data.get('author') or 'anonymous').strip()[:32]
+    icon = (data.get('icon') or '').strip()
     body = (data.get('body') or '').strip()
     if not body:
         emit('error', {'message': '本文は必須です'})
@@ -32,6 +33,7 @@ def handle_post(data):
     msg = {
         'author': author,
         'body': body,
+        'icon': icon,
         'created_at': datetime.utcnow().isoformat()
     }
     messages.setdefault(thread, []).append(msg)
