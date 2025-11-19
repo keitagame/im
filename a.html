@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+   <meta charset="UTF-8">
+  <meta imgsrc="logo.svg" alt="Frank Dev Community Logo">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frank Dev Community</title>
+  <style>
+    body{
+background:black;
+margin:0;
+padding:0;
+}
+   .triangle1 {
+  width: 0;
+  height: 0;
+  border-top: 18px solid #00aaaa;
+  border-bottom: 18px solid #00aaaa;
+  border-left: 25px solid #262626; /* ← ここで色を指定 */
+}
+ .triangle2 {
+  width: 0;
+  height: 0;
+  border-top: 18px solid #262626;
+  border-bottom: 18px solid #262626;
+  border-left: 25px solid #00aaaa; /* ← ここで色を指定 */
+}
+   .triangle3 {
+  width: 0;
+  height: 0;
+  border-top: 18px solid #00aaaa;
+  border-bottom: 18px solid #00aaaa;
+  border-left: 25px solid #262626; /* ← ここで色を指定 */
+}
+ 
+nav {
+      background-color:#262626;
+     
+    }
+
+    /* メニューリスト */
+    nav ul {
+      list-style: none;
+      margin:0;
+      padding:0;
+
+      display: flex; /* 横並び */
+    }
+
+    /* 各メニュー項目 */
+    nav ul li{
+     
+      height:35px;
+      line-height: 33px;
+    }
+    .a{
+      margin-left:20px;
+       background:#262626;
+    }
+    .b{
+      background:#00aaaa;
+    }
+     .c{
+       background:#262626;
+    }
+    .d{
+      background:#00aaaa;
+    }
+    /* リンクのスタイル */
+    nav ul li a {
+      
+      
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* ホバー時 */
+    nav ul li a:hover {
+      color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+ 
+<nav>
+    <ul>
+      <li class="a"><a href="#home">ホーム</a></li>
+      <li><div class="triangle1"></div></li>
+      <li class="b"><a href="#about">会社概要</a></li>
+      <li><div class="triangle2"></div></li>
+      <li class="c"><a href="#services">サービス</a></li>
+      <li><div class="triangle3"></div></li>
+      <li class="d"><a href="#contact">お問い合わせ</a></li>
+      <li><div class="triangle2"></div></li>
+    </ul>
+  </nav>
+
+
+</body>
+</html>
