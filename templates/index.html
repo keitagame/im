@@ -270,7 +270,7 @@ border:none;
     <nav>
     <button class="menu-toggle">☰</button>
     <ul>
-      <li class="a"><a href="#home">FRANKな掲示板</a></li>
+      <li class="a"><a href="#home">FRANKな{{ thread }}</a></li>
       <li><div class="triangle1"></div></li>
       <li class="b"><a href="#about">ここの概要</a></li>
       <li><div class="triangle2"></div></li>
@@ -281,41 +281,30 @@ border:none;
     </ul>
   </nav>
     <!-- コンテナ（複数メッセージを並べる場合） -->
-<div class="chat">
+<div class="chat" id="list" aria-live="polite">
+    {% for m in messages %}
   <!-- 1件のメッセージ -->
   <article class="message">
     <img class="avatar" src="https://pbs.twimg.com/profile_images/1976627268400353280/gpuMxtet_400x400.jpg" alt="User avatar">
     <div class="body">
       <header class="meta">
-        <span class="author">Copilot</span>
-        <span class="timestamp">今日 09:45</span>
+        <span class="author">{{ m.author }}</span>
+        <span class="timestamp">{{ m.created_at }}</span>
       </header>
       <div class="content">
-        CSSでDiscordkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk風のメッセージUIを再現してみました。行頭のアイコン、名前、タイムスタンプ、本文の並びを忠実に。
+        {{ m.body }}
       </div>
     </div>
   </article>
-
-  <article class="message">
-    <img class="avatar" src="https://pbs.twimg.com/profile_images/1976627268400353280/gpuMxtet_400x400.jpg" alt="User avatar">
-    <div class="body">
-      <header class="meta">
-        <span class="author">Shimane Dev</span>
-        <span class="timestamp">今日 09:46</span>
-      </header>
-      <div class="content">
-        2行目の本文も自然に折り返されます。コードブロックや引用の拡張も追加できます。
-      </div>
-    </div>
-  </article>
+{% endfor %}
 </div>
 
     <div class="con">
        
-    <form method="POST">
-      
+    <form id="postForm" autocomplete="off">
+      <textarea name="author" placeholder="名前 (任意)" maxlength="32">
       <textarea
-        name="text"
+        name="body"
         placeholder="自由に書き込んでください"
         class=""
       ></textarea
@@ -323,5 +312,48 @@ border:none;
       <button type="submit" class="btn2">投稿</button>
     </form>
 </div>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4/dist/socket.io.min.js"></script>
+  <script>
+    const thread = "{{ thread }}";
+    const socket = io();
+
+    socket.on('connect', () => {
+      socket.emit('join', { thread });
+    });
+
+    socket.on('posted', (m) => {
+      if (m.thread && m.thread !== thread) return;
+      appendMessage(m);
+    });
+
+    socket.on('error', (e) => alert(e.message));
+
+    document.getElementById('postForm').addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const fd = new FormData(ev.target);
+      const author = (fd.get('author') || '').trim();
+      const body = (fd.get('body') || '').trim();
+      if (!body) return;
+      socket.emit('post', { thread, author, body });
+      ev.target.reset();
+    });
+
+    function appendMessage(m) {
+      const $list = document.getElementById('list');
+      const div = document.createElement('div');
+      div.className = 'msg';
+      div.innerHTML = `
+        <div class="meta">${escapeHtml(m.author || 'anonymous')} · ${m.created_at}</div>
+        <div class="body">${escapeHtml(m.body)}</div>
+      `;
+      $list.prepend(div); // 新着を上に追加
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, (c) => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;'
+      })[c]);
+    }
+  </script>
 </body>
 </html>
