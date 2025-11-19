@@ -87,7 +87,9 @@ border-left:1px solid rgb(88, 88, 88);
 }
 
 /* 行間にうっすら区切り */
-
+.message + .message {
+  border-top: 1px solid rgb(88, 88, 88);
+}
 
 /* アバター */
 .avatar {
@@ -280,6 +282,7 @@ border:none;
       <li><div class="triangle3"></div></li>
       <li class="d"><a href="#contact">スレッドを立てる</a></li>
       <li><div class="triangle2"></div></li>
+      
     </ul>
   </nav>
     <!-- コンテナ（複数メッセージを並べる場合） -->
@@ -287,7 +290,7 @@ border:none;
     {% for m in messages %}
   <!-- 1件のメッセージ -->
   <article class="message">
-    <img class="avatar" src="https://pbs.twimg.com/profile_images/1976627268400353280/gpuMxtet_400x400.jpg" alt="User avatar">
+    <img class="avatar" src="{{ m.author }}" alt="User avatar">
     <div class="body">
       <header class="meta">
         <span class="author">{{ m.author }}</span>
@@ -305,6 +308,7 @@ border:none;
        
     <form id="postForm" autocomplete="off">
       <textarea name="author" class="ba" placeholder="名前 (任意)" maxlength="32"></textarea>
+      <textarea name="icon" class="ba" placeholder="アイコン"></textarea>
       <textarea
         name="body"
         placeholder="自由に書き込んでください"
@@ -312,6 +316,7 @@ border:none;
       ></textarea
       ><br />
       <button type="submit" class="btn2">投稿</button>
+    
     </form>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4/dist/socket.io.min.js"></script>
@@ -334,9 +339,10 @@ border:none;
       ev.preventDefault();
       const fd = new FormData(ev.target);
       const author = (fd.get('author') || '').trim();
+      const icon = (fd.get('icon') || '').trim();
       const body = (fd.get('body') || '').trim();
       if (!body) return;
-      socket.emit('post', { thread, author, body });
+      socket.emit('post', { thread, author, body, icon });
       ev.target.reset();
     });
 
@@ -345,7 +351,7 @@ border:none;
       const div = document.createElement('div');
       div.className = 'msg';
       div.innerHTML = `<article class="message">
-        <img class="avatar" src="https://pbs.twimg.com/profile_images/1976627268400353280/gpuMxtet_400x400.jpg" alt="User avatar">
+        <img class="avatar" src="${escapeHtml(m.icon || 'anonymous')}" alt="User avatar">
     <div class="body">
       <header class="meta">
         <span class="author">${escapeHtml(m.author || 'anonymous')}</span>
