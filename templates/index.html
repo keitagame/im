@@ -58,6 +58,10 @@
     background:rgb(89, 0, 255);
     border:0px solid black;
    }
+   .ba{
+    width:130px;
+    border-right:1px solid black;
+   }
    .post{
     color:white;
     display:flex;
@@ -302,7 +306,7 @@ border:none;
     <div class="con">
        
     <form id="postForm" autocomplete="off">
-      <textarea name="author" placeholder="名前 (任意)" maxlength="32"></textarea>
+      <textarea name="author" class="ba" placeholder="名前 (任意)" maxlength="32"></textarea>
       <textarea
         name="body"
         placeholder="自由に書き込んでください"
@@ -342,9 +346,19 @@ border:none;
       const $list = document.getElementById('list');
       const div = document.createElement('div');
       div.className = 'msg';
-      div.innerHTML = `
-        <div class="meta">${escapeHtml(m.author || 'anonymous')} · ${m.created_at}</div>
-        <div class="body">${escapeHtml(m.body)}</div>
+      div.innerHTML = `<article class="message">
+        <img class="avatar" src="https://pbs.twimg.com/profile_images/1976627268400353280/gpuMxtet_400x400.jpg" alt="User avatar">
+    <div class="body">
+      <header class="meta">
+        <span class="author">${escapeHtml(m.author || 'anonymous')}</span>
+        <span class="timestamp">${m.created_at}</span>
+      </header>
+      <div class="content">
+        ${escapeHtml(m.body)}
+      </div>
+    </div>
+       
+        </article>
       `;
       $list.prepend(div); // 新着を上に追加
     }
